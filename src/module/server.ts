@@ -2,25 +2,18 @@ import Koa from 'koa'
 import Router from 'koa-router'
 import asyncRetry from 'async-retry'
 import getPort from 'get-port'
+import { Server } from 'http'
 import { userHandler, secretHandler } from './handlers'
 
 export class WebServer {
   private app: Koa
   private port: number
   private router: Router
+  private server: Server
 
   constructor() {
     this.app = new Koa()
     this.router = new Router()
-  }
-
-  private async initServer(port: number) {
-    try {
-      this.app.listen(port)
-      await this.setRoutes()
-    } catch (err) {
-      throw err
-    }
   }
 
   private async setRoutes() {
@@ -46,12 +39,14 @@ export class WebServer {
       async (bail) => {
         try {
           await this.setPort()
-          await this.initServer(this.port)
+          this.server = await this.initServer(this.port)
+          await this.setRoutes()
           this.app.use(this.router.routes())
 
           console.debug(`LoginServer started on http://localhost:${this.port}`)
         } catch (err) {
           console.debug(`LoginServer failed to start on port:${this.port}. Reason: ${err.message}.`)
+          this.close()
           if (err.code !== 'EADDRINUSE') {
             return bail(err)
           }
@@ -59,5 +54,20 @@ export class WebServer {
       },
       { retries: 2, maxTimeout: 50, minTimeout: 50 }
     )
+  }
+
+  public close() {
+    console.debug('Closing Server ...')
+    this.server.unref()
+    this.server.close()
+  }
+
+  private initServer(port: number): Promise<Server> {
+    return new Promise((resolve, reject) => {
+      this.app.on('error', reject)
+      const server = this.app.listen(port, () => {
+        resolve(server)
+      })
+    })
   }
 }
