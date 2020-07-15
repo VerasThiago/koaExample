@@ -1,7 +1,5 @@
-import { helloWorld } from './module/basicFunction'
+import { WebServer } from './module/server'
 
-async function print() {
-  console.log(await helloWorld())
-}
+const server = new WebServer()
 
-print()
+server.start()

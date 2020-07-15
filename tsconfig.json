@@ -8,7 +8,7 @@
     "module": "commonjs",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "esModuleInterop": true,
+    "esModuleInterop":true,
     "skipLibCheck": true,
     "importHelpers": true,
     "declaration": true,
