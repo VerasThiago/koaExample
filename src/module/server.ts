@@ -46,7 +46,6 @@ export class WebServer {
           console.debug(`LoginServer started on http://localhost:${this.port}`)
         } catch (err) {
           console.debug(`LoginServer failed to start on port:${this.port}. Reason: ${err.message}.`)
-          this.close()
           if (err.code !== 'EADDRINUSE') {
             return bail(err)
           }

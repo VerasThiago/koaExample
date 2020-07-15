@@ -2,8 +2,12 @@ import { WebServer } from './module/server'
 
 const server = new WebServer()
 
-async function run() {
-  await server.start()
+function run() {
+  server.start()
 }
 
 run()
+
+process.on('SIGINT', () => {
+  server.close()
+})
