@@ -11,7 +11,7 @@
     "build": "yarn build-clean && yarn tsc",
     "test": "jest",
     "prepublishOnly": "bash ./scripts/publishLock.sh",
-    "ci:test": "yarn test --ci",
+    "ci:test": "yarn test --passWithNoTests --ci",
     "start": "yarn build && node build/index.js",
     "build-incremental": "yarn tsc --incremental",
     "ci:prettier-check": "prettier --check --config ./.prettierrc \"./src/**/*.{ts,tsx,js,jsx,json}\"",
