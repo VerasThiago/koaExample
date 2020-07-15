@@ -1,0 +1,40 @@
+{
+  "name": "base-project",
+  "version": "1.0.0",
+  "description": "base project with all conf files",
+  "scripts": {
+    "exe": "node scripts/make-executable.js",
+    "format": "prettier --config ./.prettierrc --write \"./src/**/*.{ts,tsx,js,jsx,json}\"",
+    "lint:node": "yarn eslint ./src --cache --ext ts --config .eslintrc",
+    "format-lint": "yarn format && yarn lint:node",
+    "build-clean": "rm -rf build",
+    "build": "yarn build-clean && yarn tsc",
+    "test": "jest",
+    "prepublishOnly": "bash ./scripts/publishLock.sh",
+    "ci:test": "yarn test --ci",
+    "start": "yarn build && node build/index.js",
+    "build-incremental": "yarn tsc --incremental",
+    "ci:prettier-check": "prettier --check --config ./.prettierrc \"./src/**/*.{ts,tsx,js,jsx,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VerasThiago/TypeScriptBaseProject.git"
+  },
+  "author": "Thiago Veras Machado",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/VerasThiago/TypeScriptBaseProject/issues"
+  },
+  "homepage": "https://github.com/VerasThiago/TypeScriptBaseProject#readme",
+  "dependencies": {
+    "@types/jest": "^26.0.3",
+    "eslint": "^7.3.1",
+    "eslint-config-vtex": "^12.6.0",
+    "jest": "^26.1.0",
+    "nodemon": "^2.0.4",
+    "prettier": "^2.0.5",
+    "ts-jest": "^26.1.1",
+    "tsc": "^1.20150623.0",
+    "typescript": "^3.9.5"
+  }
+}
