@@ -17,7 +17,7 @@ export class WebServer {
   }
 
   private async setRoutes() {
-    this.router.get('/user', userHandler)
+    this.router.post('/user', userHandler)
 
     this.router.get('/secret', secretHandler)
 
